@@ -1,3 +1,11 @@
+<?php
+include 'stock.php';
+include 'branch.php';
+
+$stocks = getStocks();
+$branches = getBranches();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,60 +15,46 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 20px;
             color: #333;
         }
 
-        h1 {
+        h1, h2 {
             text-align: center;
-            color: #4CAF50;
-        }
-
-        h2 {
             color: #333;
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 10px;
-        }
-
-        p {
-            text-align: center;
-            color: #d9534f; /* Red for error/success messages */
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
 
         th, td {
+            padding: 10px;
             border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
+            text-align: center;
         }
 
         th {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
+            background-color: #f2f2f2;
         }
 
         form {
-            background-color: white;
+            background-color: #fff;
             padding: 20px;
             border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto 20px auto;
         }
 
         label {
             display: block;
-            margin: 10px 0 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
         input[type="text"],
@@ -68,24 +62,28 @@
         select {
             width: 100%;
             padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
             border-radius: 4px;
         }
 
         input[type="submit"] {
-            background-color: #4CAF50;
+            background-color: #28a745;
             color: white;
             border: none;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
             width: 100%;
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #218838;
+        }
+
+        p {
+            text-align: center;
+            color: #d9534f; /* For error/success messages */
         }
     </style>
 </head>
@@ -94,7 +92,7 @@
     <h1>Stock Management</h1>
 
     <?php if (isset($_GET['message'])) { ?>
-        <p><?php echo htmlspecialchars($_GET['message']); ?></p> <!-- XSS prevention -->
+        <p><?php echo htmlspecialchars($_GET['message']); ?></p>
     <?php } ?>
 
     <h2>Current Stocks</h2>
@@ -106,9 +104,9 @@
         </tr>
         <?php foreach ($stocks as $stock) { ?>
         <tr>
-            <td><?php echo htmlspecialchars($stock['item_name']); ?></td> <!-- XSS prevention -->
-            <td><?php echo htmlspecialchars($stock['quantity']); ?></td> <!-- XSS prevention -->
-            <td><?php echo htmlspecialchars($stock['branch_name']); ?></td> <!-- XSS prevention -->
+            <td><?php echo htmlspecialchars($stock['item_name']); ?></td>
+            <td><?php echo htmlspecialchars($stock['quantity']); ?></td>
+            <td><?php echo htmlspecialchars($stock['branch_name']); ?></td>
         </tr>
         <?php } ?>
     </table>
@@ -120,7 +118,7 @@
         <label for="branch_id">Branch:</label>
         <select name="branch_id" required>
             <?php foreach ($branches as $branch) { ?>
-            <option value="<?php echo htmlspecialchars($branch['id']); ?>"><?php echo htmlspecialchars($branch['name']); ?></option> <!-- XSS prevention -->
+            <option value="<?php echo htmlspecialchars($branch['id']); ?>"><?php echo htmlspecialchars($branch['name']); ?></option>
             <?php } ?>
         </select>
 
@@ -143,7 +141,7 @@
         <label for="new_branch_id">New Branch:</label>
         <select name="new_branch_id" required>
             <?php foreach ($branches as $branch) { ?>
-            <option value="<?php echo htmlspecialchars($branch['id']); ?>"><?php echo htmlspecialchars($branch['name']); ?></option> <!-- XSS prevention -->
+            <option value="<?php echo htmlspecialchars($branch['id']); ?>"><?php echo htmlspecialchars($branch['name']); ?></option>
             <?php } ?>
         </select>
 
