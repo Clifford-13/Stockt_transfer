@@ -83,7 +83,7 @@ $branches = getBranches();
 
         p {
             text-align: center;
-            color: #d9534f; /* For error/success messages */
+            color: #d9534f;
         }
     </style>
 </head>
@@ -98,12 +98,14 @@ $branches = getBranches();
     <h2>Current Stocks</h2>
     <table>
         <tr>
+            <th>ID</th>
             <th>Item Name</th>
             <th>Quantity</th>
             <th>Branch</th>
         </tr>
         <?php foreach ($stocks as $stock) { ?>
         <tr>
+            <td><?php echo htmlspecialchars($stock['id']); ?></td> 
             <td><?php echo htmlspecialchars($stock['item_name']); ?></td>
             <td><?php echo htmlspecialchars($stock['quantity']); ?></td>
             <td><?php echo htmlspecialchars($stock['branch_name']); ?></td>
@@ -144,6 +146,9 @@ $branches = getBranches();
             <option value="<?php echo htmlspecialchars($branch['id']); ?>"><?php echo htmlspecialchars($branch['name']); ?></option>
             <?php } ?>
         </select>
+
+        <label for="transfer_quantity">Quantity to Transfer:</label>
+        <input type="number" name="transfer_quantity" min="1" required>
 
         <input type="submit" value="Transfer Stock">
     </form>
